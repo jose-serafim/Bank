@@ -13,14 +13,18 @@ def menu_principal():
     match option:
             case "1":
                 limpar_ecra()
-                if login():
-                    print("\n--- LOGIN COM SUCESSO ---\n")
-                    sleep(2)
-                    menu_admin()
+                user = login()
+                if user:
+                    print(f"Bem-vindo {user['username']}")
+                    if user["tipo"] == "admin":
+                        menu_admin(user)
+                    else:
+                        menu_admin(user)
                 else:
-                    print("\n--- LOGIN FALHADO ---\n")
+                    print("Credenciais inválidas")
                     sleep(2)
                     menu_principal()
+                    
             case "0":
                 limpar_ecra()
                 print("\n--- SAIR ---\n")
@@ -32,7 +36,7 @@ def menu_principal():
                 sleep(2)
                 menu_principal() 
 
-def menu_admin():
+def menu_admin(user):
     limpar_ecra()
     print("=================================\n       SISTEMA BANCÁRIO\n=================================\n")
     print("1. Login\n2. Criar Cliente\n3. Criar Conta\n0. Sair\n")
@@ -42,7 +46,7 @@ def menu_admin():
                 limpar_ecra()
                 print("\n--- Login ---\n")
                 sleep(2)
-                menu_admin()
+                menu_admin(user)
             case "2":
                 limpar_ecra()
                 print("\n--- Criar Cliente ---\n")
@@ -52,7 +56,7 @@ def menu_admin():
                 limpar_ecra()
                 print("\n--- Criar Conta ---\n")
                 sleep(2)
-                nova_conta()
+                nova_conta(user)
             case "0":
                 limpar_ecra()
                 print("\n--- Sair ---\n")
@@ -60,9 +64,9 @@ def menu_admin():
                 limpar_ecra()
                 print("\n--- Opção inválida ---\n")
                 sleep(2)
-                menu_admin()
+                menu_admin(user)
 
-def novo_cliente():
+def novo_cliente(user):
     limpar_ecra()
     print("=================================\n       NOVO CLIENTE\n=================================\n")
     print("1. \n0. Voltar\n")
@@ -72,19 +76,19 @@ def novo_cliente():
                 limpar_ecra()
                 print("\n---     ---\n")
                 sleep(2)
-                novo_cliente()
+                novo_cliente(user)
             case "0":
                 limpar_ecra()
                 print("\n--- Voltar ---\n")
                 sleep(2)
-                menu_admin()
+                menu_admin(user)
             case _:
                 limpar_ecra()
                 print("\n--- Opção inválida ---\n")
                 sleep(2)
-                novo_cliente()
+                novo_cliente(user)
 
-def nova_conta():
+def nova_conta(user):
     limpar_ecra()
     print("=================================\n       NOVA CONTA\n=================================\n")
     print("1. \n0. Voltar\n")
@@ -94,17 +98,17 @@ def nova_conta():
                 limpar_ecra()
                 print("\n---     ---\n")
                 sleep(2)
-                nova_conta()
+                nova_conta(user)
             case "0":
                 limpar_ecra()
                 print("\n--- Voltar ---\n")
                 sleep(2)
-                menu_admin()
+                menu_admin(user)
             case _:
                 limpar_ecra()
                 print("\n--- Opção inválida ---\n")
                 sleep(2)
-                nova_conta()                
+                nova_conta(user)                
 
 
 #menu_principal()
