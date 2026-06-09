@@ -19,7 +19,7 @@ def menu_principal():
                     if user["tipo"] == "admin":
                         menu_admin(user)
                     else:
-                        menu_admin(user)
+                        menu_client(user)
                 else:
                     print("Credenciais inválidas")
                     sleep(2)
@@ -39,27 +39,77 @@ def menu_principal():
 def menu_admin(user):
     limpar_ecra()
     print("=================================\n       SISTEMA BANCÁRIO\n=================================\n")
-    print("1. Login\n2. Criar Cliente\n3. Criar Conta\n0. Sair\n")
+    print("1. Gestão de Clientes\n2. Gestão de Contas\n3. Operações Bancárias\n4. Relatórios\n0. Logout\n")
     option = input("Escolha uma opção: ")
     match option:
             case "1":
                 limpar_ecra()
-                print("\n--- Login ---\n")
+                print("\n--- Gestão de Clientes ---\n")
                 sleep(2)
                 menu_admin(user)
             case "2":
                 limpar_ecra()
-                print("\n--- Criar Cliente ---\n")
+                print("\n--- Gestão de Contas ---\n")
                 sleep(2)
-                novo_cliente()
+                menu_admin(user)
             case "3":
                 limpar_ecra()
-                print("\n--- Criar Conta ---\n")
+                print("\n--- Operações Bancárias ---\n")
                 sleep(2)
-                nova_conta(user)
+                menu_admin(user)
+            case "4":
+                limpar_ecra()
+                print("\n--- Relatórios ---\n")
+                sleep(2)
+                menu_admin(user)
             case "0":
                 limpar_ecra()
-                print("\n--- Sair ---\n")
+                print("\n--- Logout ---\n")
+            case _:
+                limpar_ecra()
+                print("\n--- Opção inválida ---\n")
+                sleep(2)
+                menu_admin(user)
+
+def menu_client(user):
+    limpar_ecra()
+    print("=================================\n       SISTEMA BANCÁRIO\n=================================\n")
+    print("1. Consultar Saldo\n2. Depositar\n3. Levantar\n4. Transferir\n5. Histórico\n6. Alterar Password\n0. Logout\n")
+    option = input("Escolha uma opção: ")
+    match option:
+            case "1":
+                limpar_ecra()
+                print("\n--- Consultar Saldo ---\n")
+                sleep(2)
+                menu_client(user)
+            case "2":
+                limpar_ecra()
+                print("\n--- Depositar ---\n")
+                sleep(2)
+                menu_client(user)
+            case "3":
+                limpar_ecra()
+                print("\n--- Levantar ---\n")
+                sleep(2)
+                menu_client(user)
+            case "4":
+                limpar_ecra()
+                print("\n--- Transferir ---\n")
+                sleep(2)
+                menu_client(user)
+            case "5":
+                limpar_ecra()
+                print("\n--- Histórico ---\n")
+                sleep(2)
+                menu_client(user)
+            case "6":
+                limpar_ecra()
+                print("\n--- Alterar Password ---\n")
+                sleep(2)
+                menu_client(user)
+            case "0":
+                limpar_ecra()
+                print("\n--- Logout ---\n")
             case _:
                 limpar_ecra()
                 print("\n--- Opção inválida ---\n")
