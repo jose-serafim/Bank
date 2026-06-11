@@ -2,6 +2,7 @@ import os
 from time import sleep
 from utils import limpar_ecra
 from auth import login
+import clientes
 
 
 
@@ -15,7 +16,9 @@ def menu_principal():
                 limpar_ecra()
                 user = login()
                 if user:
+                    limpar_ecra()
                     print(f"Bem-vindo {user['username']}")
+                    sleep(1)
                     if user["tipo"] == "admin":
                         menu_admin(user)
                     else:
@@ -38,26 +41,31 @@ def menu_principal():
 
 def menu_admin(user):
     limpar_ecra()
-    print("=================================\n       SISTEMA BANCÁRIO\n=================================\n")
-    print("1. Gestão de Clientes\n2. Gestão de Contas\n3. Operações Bancárias\n4. Relatórios\n0. Logout\n")
+    print("=================================\n       ADMINISTRAÇÃO\n=================================\n")
+    print("1. Gestão de Utilizadores\n2. Gestão de Clientes\n3. Gestão de Contas\n4. Operações Bancárias\n5. Relatórios\n0. Logout\n")
     option = input("Escolha uma opção: ")
     match option:
             case "1":
                 limpar_ecra()
-                print("\n--- Gestão de Clientes ---\n")
+                print("\n--- Gestão de Utilizadores ---\n")
                 sleep(2)
                 menu_admin(user)
             case "2":
                 limpar_ecra()
+                print("\n--- Gestão de Clientes ---\n")
+                sleep(2)
+                gestao_clientes(user)
+            case "3":
+                limpar_ecra()
                 print("\n--- Gestão de Contas ---\n")
                 sleep(2)
                 menu_admin(user)
-            case "3":
+            case "4":
                 limpar_ecra()
                 print("\n--- Operações Bancárias ---\n")
                 sleep(2)
                 menu_admin(user)
-            case "4":
+            case "5":
                 limpar_ecra()
                 print("\n--- Relatórios ---\n")
                 sleep(2)
@@ -70,6 +78,48 @@ def menu_admin(user):
                 print("\n--- Opção inválida ---\n")
                 sleep(2)
                 menu_admin(user)
+
+def gestao_clientes(user):
+    limpar_ecra()
+    print("=================================\n       GESTÃO DE CLIENTES\n=================================\n")
+    print("1. Novo Cliente\n2. Consultar Cliente\n3. Listar Clientes\n4. Editar Clientes\n5. Remover Cliente\n0. Voltar\n")
+    option = input("Escolha uma opção: ")
+    match option:
+            case "1":
+                limpar_ecra()
+                print("\n--- Novo Cliente ---\n")
+                sleep(2)
+                clientes.criar_cliente()
+            case "2":
+                limpar_ecra()
+                print("\n--- Consultar Cliente ---\n")
+                sleep(2)
+                clientes.consultar_cliente()
+            case "3":
+                limpar_ecra()
+                print("\n--- Listar Clientes ---\n")
+                sleep(2)
+                clientes.listar_clientes()
+            case "4":
+                limpar_ecra()
+                print("\n--- Editar Clientes ---\n")
+                sleep(2)
+                clientes.editar_cliente()
+            case "5":
+                limpar_ecra()
+                print("\n--- Remover Cliente ---\n")
+                sleep(2)
+                clientes.remover_cliente()
+            case "0":
+                limpar_ecra()
+                print("\n--- Voltar ---\n")
+                menu_admin(user)
+            case _:
+                limpar_ecra()
+                print("\n--- Opção inválida ---\n")
+                sleep(2)
+                gestao_clientes(user)
+
 
 def menu_client(user):
     limpar_ecra()

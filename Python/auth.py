@@ -2,9 +2,7 @@ import sqlite3
 import hashlib
 from getpass import getpass
 from database import conectar
- 
-def hash_password(password: str) -> str:
-    return hashlib.sha256(password.encode()).hexdigest()
+from security import hash_password
 
 def login():
 

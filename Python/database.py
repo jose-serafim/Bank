@@ -1,27 +1,47 @@
 import sqlite3
-import hashlib
+from security import hash_password
 
 def conectar():
-    return sqlite3.connect("banco.db")
-
-def hash_password(password):
-    return hashlib.sha256(password.encode()).hexdigest()
+    conn = sqlite3.connect("banco.db")
+    conn.execute("PRAGMA foreign_keys = ON")
+    return conn
 
 def init_db():
     conn = conectar()
     cursor = conn.cursor()
+    criar_tabela_clientes(cursor)
+    criar_tabela_utilizadores(cursor)
+    conn.commit()
+    conn.close()
 
+def criar_tabela_clientes(cursor):
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS clientes (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nome TEXT NOT NULL,
+            nif TEXT UNIQUE NOT NULL,
+            morada TEXT,
+            email TEXT,
+            telefone TEXT
+        )
+    """)
+    
+
+def criar_tabela_utilizadores(cursor):
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS utilizadores (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+            cliente_id INTEGER,
             username TEXT UNIQUE NOT NULL,
             password_hash TEXT NOT NULL,
-            tipo TEXT NOT NULL
+            role TEXT NOT NULL,
+
+            FOREIGN KEY (cliente_id)
+                REFERENCES clientes(id)
+                ON DELETE CASCADE
         )
     """)
 
-    conn.commit()
-    conn.close()
 
 def criar_admin_default():
     conn = conectar()
@@ -35,7 +55,7 @@ def criar_admin_default():
 
     if not admin:
         cursor.execute("""
-            INSERT INTO utilizadores (username, password_hash, tipo)
+            INSERT INTO utilizadores (username, password_hash, role)
             VALUES (?, ?, ?)
         """, (
             "admin",
