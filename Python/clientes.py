@@ -2,6 +2,7 @@ from getpass import getpass
 from time import sleep
 from database import username_existe
 from database import criar_cliente_db
+from database import obter_todos_clientes
 from utils import limpar_ecra
 
 def criar_cliente(user):
@@ -71,7 +72,26 @@ def consultar_cliente(user):
     pass
 
 def listar_clientes(user):
-    pass
+    limpar_ecra()
+
+    print("=================================")
+    print("       LISTA DE CLIENTES")
+    print("=================================\n")
+
+    clientes = obter_todos_clientes()
+
+    if not clientes:
+        print("Não existem clientes registados.")
+    else:
+        for cliente in clientes:   
+            print(f"ID: {cliente[0]}")
+            print(f"Nome: {cliente[1]}")
+            print(f"NIF: {cliente[2]}")
+            print(f"Username: {cliente[3]}")
+            print("---------------------------------")
+
+    print("\nPrima Enter para voltar...")
+    input()
 
 def editar_cliente(user):
     pass

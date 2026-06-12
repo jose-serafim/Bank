@@ -127,3 +127,27 @@ def criar_cliente_db(cliente):
 
     conn.commit()
     conn.close()
+
+
+def obter_todos_clientes():
+
+    conn = conectar()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT
+            c.id,
+            c.nome,
+            c.nif,
+            u.username
+        FROM clientes c
+        JOIN utilizadores u
+            ON u.cliente_id = c.id
+        ORDER BY c.nome
+    """)
+
+    clientes = cursor.fetchall()
+
+    conn.close()
+
+    return clientes

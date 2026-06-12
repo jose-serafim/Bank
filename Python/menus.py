@@ -100,9 +100,10 @@ def gestao_clientes(user):
                 clientes.consultar_cliente(user)
             case "3":
                 limpar_ecra()
-                print("\n--- Listar Clientes ---\n")
-                sleep(2)
+                #print("\n--- Listar Clientes ---\n")
+                #sleep(2)
                 clientes.listar_clientes(user)
+                gestao_clientes(user)
             case "4":
                 limpar_ecra()
                 print("\n--- Editar Clientes ---\n")
