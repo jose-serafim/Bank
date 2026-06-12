@@ -19,7 +19,7 @@ def menu_principal():
                     limpar_ecra()
                     print(f"Bem-vindo {user['username']}")
                     sleep(1)
-                    if user["tipo"] == "admin":
+                    if user["role"] == "admin":
                         menu_admin(user)
                     else:
                         menu_client(user)
@@ -52,8 +52,8 @@ def menu_admin(user):
                 menu_admin(user)
             case "2":
                 limpar_ecra()
-                print("\n--- Gestão de Clientes ---\n")
-                sleep(2)
+                #print("\n--- Gestão de Clientes ---\n")
+                #sleep(2)
                 gestao_clientes(user)
             case "3":
                 limpar_ecra()
@@ -73,6 +73,8 @@ def menu_admin(user):
             case "0":
                 limpar_ecra()
                 print("\n--- Logout ---\n")
+                sleep(1)
+                menu_principal()
             case _:
                 limpar_ecra()
                 print("\n--- Opção inválida ---\n")
@@ -87,29 +89,30 @@ def gestao_clientes(user):
     match option:
             case "1":
                 limpar_ecra()
-                print("\n--- Novo Cliente ---\n")
-                sleep(2)
-                clientes.criar_cliente()
+                #print("\n--- Novo Cliente ---\n")
+                #sleep(2)
+                clientes.criar_cliente(user)
+                gestao_clientes(user)
             case "2":
                 limpar_ecra()
                 print("\n--- Consultar Cliente ---\n")
                 sleep(2)
-                clientes.consultar_cliente()
+                clientes.consultar_cliente(user)
             case "3":
                 limpar_ecra()
                 print("\n--- Listar Clientes ---\n")
                 sleep(2)
-                clientes.listar_clientes()
+                clientes.listar_clientes(user)
             case "4":
                 limpar_ecra()
                 print("\n--- Editar Clientes ---\n")
                 sleep(2)
-                clientes.editar_cliente()
+                clientes.editar_cliente(user)
             case "5":
                 limpar_ecra()
                 print("\n--- Remover Cliente ---\n")
                 sleep(2)
-                clientes.remover_cliente()
+                clientes.remover_cliente(user)
             case "0":
                 limpar_ecra()
                 print("\n--- Voltar ---\n")
@@ -160,55 +163,12 @@ def menu_client(user):
             case "0":
                 limpar_ecra()
                 print("\n--- Logout ---\n")
+                sleep(1)
+                menu_principal()
             case _:
                 limpar_ecra()
                 print("\n--- Opção inválida ---\n")
                 sleep(2)
-                menu_admin(user)
-
-def novo_cliente(user):
-    limpar_ecra()
-    print("=================================\n       NOVO CLIENTE\n=================================\n")
-    print("1. \n0. Voltar\n")
-    option = input("Escolha uma opção: ")
-    match option:
-            case "1":
-                limpar_ecra()
-                print("\n---     ---\n")
-                sleep(2)
-                novo_cliente(user)
-            case "0":
-                limpar_ecra()
-                print("\n--- Voltar ---\n")
-                sleep(2)
-                menu_admin(user)
-            case _:
-                limpar_ecra()
-                print("\n--- Opção inválida ---\n")
-                sleep(2)
-                novo_cliente(user)
-
-def nova_conta(user):
-    limpar_ecra()
-    print("=================================\n       NOVA CONTA\n=================================\n")
-    print("1. \n0. Voltar\n")
-    option = input("Escolha uma opção: ")
-    match option:
-            case "1":
-                limpar_ecra()
-                print("\n---     ---\n")
-                sleep(2)
-                nova_conta(user)
-            case "0":
-                limpar_ecra()
-                print("\n--- Voltar ---\n")
-                sleep(2)
-                menu_admin(user)
-            case _:
-                limpar_ecra()
-                print("\n--- Opção inválida ---\n")
-                sleep(2)
-                nova_conta(user)                
-
+                menu_client(user)           
 
 #menu_principal()

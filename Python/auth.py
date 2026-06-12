@@ -1,5 +1,3 @@
-import sqlite3
-import hashlib
 from getpass import getpass
 from database import conectar
 from security import hash_password
@@ -15,7 +13,7 @@ def login():
     cursor = conn.cursor()
 
     cursor.execute("""
-        SELECT id, username, tipo
+        SELECT id, username, role
         FROM utilizadores
         WHERE username = ? AND password_hash = ?
     """, (username, password_hash))
@@ -27,7 +25,7 @@ def login():
         return {
             "id": user[0],
             "username": user[1],
-            "tipo": user[2]
+            "role": user[2]
         }
 
     return None

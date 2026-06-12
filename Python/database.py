@@ -66,3 +66,64 @@ def criar_admin_default():
         conn.commit()
 
     conn.close()
+
+def username_existe(username):
+    conn = conectar()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT id FROM utilizadores WHERE username = ?
+    """, (username,))
+
+    result = cursor.fetchone()
+    conn.close()
+
+    return result is not None
+
+def criar_cliente_db(cliente):
+
+    conn = conectar()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        """
+        INSERT INTO clientes (
+            nome,
+            nif,
+            morada,
+            email,
+            telefone
+        )
+        VALUES (?, ?, ?, ?, ?)
+        """,
+        (
+            cliente["nome"],
+            cliente["nif"],
+            cliente["morada"],
+            cliente["email"],
+            cliente["telefone"]
+        )
+    )
+
+    cliente_id = cursor.lastrowid
+
+    cursor.execute(
+        """
+        INSERT INTO utilizadores (
+            cliente_id,
+            username,
+            password_hash,
+            role
+        )
+        VALUES (?, ?, ?, ?)
+        """,
+        (
+            cliente_id,
+            cliente["username"],
+            hash_password(cliente["password"]),
+            "cliente"
+        )
+    )
+
+    conn.commit()
+    conn.close()
