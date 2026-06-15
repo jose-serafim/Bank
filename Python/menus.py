@@ -1,4 +1,5 @@
-import os
+#menus.py
+
 from time import sleep
 from utils import limpar_ecra
 from auth import login
@@ -95,8 +96,8 @@ def gestao_clientes(user):
                 gestao_clientes(user)
             case "2":
                 limpar_ecra()
-                print("\n--- Consultar Cliente ---\n")
-                sleep(2)
+                #print("\n--- Consultar Cliente ---\n")
+                #sleep(2)
                 clientes.consultar_cliente(user)
                 gestao_clientes(user)
             case "3":
@@ -126,7 +127,6 @@ def gestao_clientes(user):
                 print("\n--- Opção inválida ---\n")
                 sleep(2)
                 gestao_clientes(user)
-
 
 def menu_client(user):
     limpar_ecra()

@@ -1,19 +1,23 @@
+#clientes.py
+
 from getpass import getpass
 from database import (
     username_existe,
+    nif_existe,
     criar_cliente_db,
-    obter_todos_clientes
+    obter_todos_clientes,
+    obter_cliente_por_nif
 )
-from utils import limpar_ecra
+import utils
 
 def criar_cliente(user):
 
-    limpar_ecra()
+    utils.limpar_ecra()
     print("=================================\n       NOVO CLIENTE\n=================================\n")
 
     cliente = {
-        "nome": input("Nome: "),
-        "nif": input("NIF: "),
+        "nome": utils.pedir_texto("Nome: "),
+        "nif": pedir_nif(),
         "morada": input("Morada: "),
         "email": input("Email: "),
         "telefone": input("Telefone: ")
@@ -39,11 +43,7 @@ def pedir_username():
 
     while True:
 
-        username = input("Username: ").strip()
-
-        if not username:
-            print("Username não pode ser vazio.")
-            continue
+        username = utils.pedir_texto("Username: ")
 
         if not username_existe(username):
             return username
@@ -67,14 +67,29 @@ def pedir_password():
 
         print("As passwords não coincidem.")
 
+def pedir_nif():
+
+    while True:
+
+        nif = utils.pedir_texto("NIF: ")
+
+        if not utils.validar_nif(nif):
+            print("NIF inválido.")
+            continue
+
+        if not nif_existe(nif):
+            return nif
+
+        print("Já existe um cliente com esse NIF.")
+
 def confirmar_cliente(cliente):
-    limpar_ecra()
+    utils.limpar_ecra()
     print("\nConfirma a criação do cliente?")
     print(f"Nome: {cliente['nome']}")
     print(f"NIF: {cliente['nif']}")
-    print(f"Morada: {cliente['morada']}")
-    print(f"Email: {cliente['email']}")
-    print(f"Telefone: {cliente['telefone']}")
+    print(f"Morada: {cliente['morada'] or '-'}")
+    print(f"Email: {cliente['email'] or '-'}")
+    print(f"Telefone: {cliente['telefone'] or '-'}")
     print(f"Username: {cliente['username']}")
 
     while True:
@@ -89,10 +104,40 @@ def confirmar_cliente(cliente):
                 print("Opção inválida.")
 
 def consultar_cliente(user):
-    pass
+    utils.limpar_ecra()
+
+    print("=================================")
+    print("      CONSULTAR CLIENTE")
+    print("=================================\n")
+
+    while True:
+        nif = utils.pedir_texto("NIF: ")
+
+        if utils.validar_nif(nif):
+            break
+
+        print("NIF inválido.")
+
+    cliente = obter_cliente_por_nif(nif)
+
+    if not cliente:
+        print("\nCliente não encontrado.")
+    else:
+        print("\nDados do cliente:\n")
+
+        print(f"ID: {cliente[0]}")
+        print(f"Nome: {cliente[1]}")
+        print(f"NIF: {cliente[2]}")
+        print(f"Morada: {cliente[3] or '-'}")
+        print(f"Email: {cliente[4] or '-'}")
+        print(f"Telefone: {cliente[5] or '-'}")
+        print(f"Username: {cliente[6]}")
+
+    print("\nPrima Enter para voltar...")
+    input()
 
 def listar_clientes(user):
-    limpar_ecra()
+    utils.limpar_ecra()
 
     print("=================================")
     print("       LISTA DE CLIENTES")

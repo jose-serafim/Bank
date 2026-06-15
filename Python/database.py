@@ -1,3 +1,5 @@
+#database.py
+
 import sqlite3
 from security import hash_password
 
@@ -26,7 +28,6 @@ def criar_tabela_clientes(cursor):
         )
     """)
     
-
 def criar_tabela_utilizadores(cursor):
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS utilizadores (
@@ -41,7 +42,6 @@ def criar_tabela_utilizadores(cursor):
                 ON DELETE CASCADE
         )
     """)
-
 
 def criar_admin_default():
     conn = conectar()
@@ -80,8 +80,23 @@ def username_existe(username):
 
     return result is not None
 
-def criar_cliente_db(cliente):
+def nif_existe(nif):
+    conn = conectar()
+    cursor = conn.cursor()
 
+    cursor.execute("""
+        SELECT id
+        FROM clientes
+        WHERE nif = ?
+    """, (nif,))
+
+    result = cursor.fetchone()
+
+    conn.close()
+
+    return result is not None
+
+def criar_cliente_db(cliente):
     conn = conectar()
     cursor = conn.cursor()
 
@@ -128,7 +143,6 @@ def criar_cliente_db(cliente):
     conn.commit()
     conn.close()
 
-
 def obter_todos_clientes():
 
     conn = conectar()
@@ -151,3 +165,29 @@ def obter_todos_clientes():
     conn.close()
 
     return clientes
+
+def obter_cliente_por_nif(nif):
+
+    conn = conectar()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT
+            c.id,
+            c.nome,
+            c.nif,
+            c.morada,
+            c.email,
+            c.telefone,
+            u.username
+        FROM clientes c
+        JOIN utilizadores u
+            ON u.cliente_id = c.id
+        WHERE c.nif = ?
+    """, (nif,))
+
+    cliente = cursor.fetchone()
+
+    conn.close()
+
+    return cliente
