@@ -1,8 +1,9 @@
 from getpass import getpass
-from time import sleep
-from database import username_existe
-from database import criar_cliente_db
-from database import obter_todos_clientes
+from database import (
+    username_existe,
+    criar_cliente_db,
+    obter_todos_clientes
+)
 from utils import limpar_ecra
 
 def criar_cliente(user):
@@ -18,22 +19,9 @@ def criar_cliente(user):
         "telefone": input("Telefone: ")
     }
 
-    while True:
-        cliente['username'] = input("Username: ")
-        if not username_existe(cliente['username']):
-            break
-        print("Username já existe.")
-        sleep(1)
+    cliente["username"] = pedir_username()
 
-    while True:
-        password = getpass("Password: ")
-        confirmacao = getpass("Confirmar Password: ")
-
-        if password == confirmacao:
-            cliente['password'] = password
-            break
-
-        print("As passwords não coincidem.")
+    cliente["password"] = pedir_password()
 
     if confirmar_cliente(cliente):
         try:
@@ -46,6 +34,38 @@ def criar_cliente(user):
 
     print("\nPrima Enter para voltar ao menu...")
     input()
+
+def pedir_username():
+
+    while True:
+
+        username = input("Username: ").strip()
+
+        if not username:
+            print("Username não pode ser vazio.")
+            continue
+
+        if not username_existe(username):
+            return username
+
+        print("Username já existe.")
+
+def pedir_password():
+
+    while True:
+
+        password = getpass("Password: ")
+
+        if not password:
+            print("Password não pode ser vazia.")
+            continue
+
+        confirmacao = getpass("Confirmar Password: ")
+
+        if password == confirmacao:
+            return password
+
+        print("As passwords não coincidem.")
 
 def confirmar_cliente(cliente):
     limpar_ecra()
@@ -83,11 +103,12 @@ def listar_clientes(user):
     if not clientes:
         print("Não existem clientes registados.")
     else:
-        for cliente in clientes:   
-            print(f"ID: {cliente[0]}")
-            print(f"Nome: {cliente[1]}")
-            print(f"NIF: {cliente[2]}")
-            print(f"Username: {cliente[3]}")
+        for id_cliente, nome, nif, username in clientes:
+
+            print(f"ID: {id_cliente}")
+            print(f"Nome: {nome}")
+            print(f"NIF: {nif}")
+            print(f"Username: {username}")
             print("---------------------------------")
 
     print("\nPrima Enter para voltar...")
