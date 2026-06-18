@@ -6,7 +6,8 @@ from database import (
     nif_existe,
     criar_cliente_db,
     obter_todos_clientes,
-    obter_cliente_por_nif
+    obter_cliente_por_nif,
+    remover_cliente_db
 )
 import utils
 
@@ -82,6 +83,17 @@ def pedir_nif():
 
         print("Já existe um cliente com esse NIF.")
 
+def pedir_nif_valido():
+
+    while True:
+
+        nif = utils.pedir_texto("NIF: ")
+
+        if utils.validar_nif(nif):
+            return nif
+
+        print("NIF inválido.")
+
 def confirmar_cliente(cliente):
     utils.limpar_ecra()
     print("\nConfirma a criação do cliente?")
@@ -103,6 +115,16 @@ def confirmar_cliente(cliente):
             case _:
                 print("Opção inválida.")
 
+def mostrar_cliente(cliente):
+
+    print(f"ID: {cliente[0]}")
+    print(f"Nome: {cliente[1]}")
+    print(f"NIF: {cliente[2]}")
+    print(f"Morada: {cliente[3] or '-'}")
+    print(f"Email: {cliente[4] or '-'}")
+    print(f"Telefone: {cliente[5] or '-'}")
+    print(f"Username: {cliente[6]}")
+
 def consultar_cliente(user):
     utils.limpar_ecra()
 
@@ -110,13 +132,7 @@ def consultar_cliente(user):
     print("      CONSULTAR CLIENTE")
     print("=================================\n")
 
-    while True:
-        nif = utils.pedir_texto("NIF: ")
-
-        if utils.validar_nif(nif):
-            break
-
-        print("NIF inválido.")
+    nif = pedir_nif_valido()
 
     cliente = obter_cliente_por_nif(nif)
 
@@ -124,14 +140,7 @@ def consultar_cliente(user):
         print("\nCliente não encontrado.")
     else:
         print("\nDados do cliente:\n")
-
-        print(f"ID: {cliente[0]}")
-        print(f"Nome: {cliente[1]}")
-        print(f"NIF: {cliente[2]}")
-        print(f"Morada: {cliente[3] or '-'}")
-        print(f"Email: {cliente[4] or '-'}")
-        print(f"Telefone: {cliente[5] or '-'}")
-        print(f"Username: {cliente[6]}")
+        mostrar_cliente(cliente)
 
     print("\nPrima Enter para voltar...")
     input()
@@ -163,4 +172,28 @@ def editar_cliente(user):
     pass
 
 def remover_cliente(user):
-    pass
+    utils.limpar_ecra()
+
+    print("=================================")
+    print("       REMOVER CLIENTE")
+    print("=================================\n")
+
+    nif = pedir_nif_valido()
+
+    cliente = obter_cliente_por_nif(nif)
+
+    if not cliente:
+        print("\nCliente não encontrado.")
+        input("\nPrima Enter para voltar...")
+        return
+
+    print("\nCliente encontrado:\n")
+    mostrar_cliente(cliente)
+
+    if utils.pedir_confirmacao("Tem a certeza que pretende remover este cliente?"):
+        remover_cliente_db(cliente[0])
+        print("\nCliente removido com sucesso.")
+    else:
+        print("\nOperação cancelada.")
+
+    input("\nPrima Enter para voltar...")

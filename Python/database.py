@@ -143,6 +143,19 @@ def criar_cliente_db(cliente):
     conn.commit()
     conn.close()
 
+def remover_cliente_db(cliente_id):
+
+    conn = conectar()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        DELETE FROM clientes
+        WHERE id = ?
+    """, (cliente_id,))
+
+    conn.commit()
+    conn.close()
+
 def obter_todos_clientes():
 
     conn = conectar()
