@@ -32,7 +32,7 @@ def menu_principal():
             case "0":
                 limpar_ecra()
                 print("\n--- SAIR ---\n")
-                sleep(2)
+                #sleep(2)
                 return
             case _:
                 limpar_ecra()
@@ -74,7 +74,7 @@ def menu_admin(user):
             case "0":
                 limpar_ecra()
                 print("\n--- Logout ---\n")
-                sleep(1)
+                #sleep(1)
                 menu_principal()
             case _:
                 limpar_ecra()
@@ -120,7 +120,7 @@ def gestao_clientes(user):
                 gestao_clientes(user)
             case "0":
                 limpar_ecra()
-                print("\n--- Voltar ---\n")
+                #print("\n--- Voltar ---\n")
                 menu_admin(user)
             case _:
                 limpar_ecra()

@@ -156,6 +156,29 @@ def remover_cliente_db(cliente_id):
     conn.commit()
     conn.close()
 
+def atualizar_cliente_db(cliente):
+    conn = conectar()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        UPDATE clientes
+        SET
+            nome = ?,
+            morada = ?,
+            email = ?,
+            telefone = ?
+        WHERE id = ?
+    """, (
+        cliente["nome"],
+        cliente["morada"],
+        cliente["email"],
+        cliente["telefone"],
+        cliente["id"]
+    ))
+
+    conn.commit()
+    conn.close()
+
 def obter_todos_clientes():
 
     conn = conectar()

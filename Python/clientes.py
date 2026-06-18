@@ -7,6 +7,7 @@ from database import (
     criar_cliente_db,
     obter_todos_clientes,
     obter_cliente_por_nif,
+    atualizar_cliente_db,
     remover_cliente_db
 )
 import utils
@@ -94,6 +95,15 @@ def pedir_nif_valido():
 
         print("NIF inválido.")
 
+def pedir_texto_edicao(mensagem, valor_atual):
+
+    valor = input(f"{mensagem} [{valor_atual}]: ").strip()
+
+    if valor:
+        return valor
+
+    return valor_atual
+
 def confirmar_cliente(cliente):
     utils.limpar_ecra()
     print("\nConfirma a criação do cliente?")
@@ -169,7 +179,40 @@ def listar_clientes(user):
     input()
 
 def editar_cliente(user):
-    pass
+
+    utils.limpar_ecra()
+
+    print("=================================")
+    print("       EDITAR CLIENTE")
+    print("=================================\n")
+
+    nif = pedir_nif_valido()
+
+    cliente = obter_cliente_por_nif(nif)
+
+    if not cliente:
+        print("\nCliente não encontrado.")
+        input("\nPrima Enter para voltar...")
+        return
+
+    print("\nCliente encontrado:\n")
+    mostrar_cliente(cliente)
+
+    cliente_editado = {
+        "id": cliente[0],
+        "nome": pedir_texto_edicao("Nome", cliente[1]),
+        "morada": pedir_texto_edicao("Morada", cliente[3] or ""),
+        "email": pedir_texto_edicao("Email", cliente[4] or ""),
+        "telefone": pedir_texto_edicao("Telefone", cliente[5] or "")
+    }
+
+    if utils.pedir_confirmacao("Guardar alterações?"):
+        atualizar_cliente_db(cliente_editado)
+        print("\nCliente atualizado com sucesso.")
+    else:
+        print("\nOperação cancelada.")
+
+    input("\nPrima Enter para voltar...")
 
 def remover_cliente(user):
     utils.limpar_ecra()
