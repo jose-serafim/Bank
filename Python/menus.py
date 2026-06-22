@@ -4,6 +4,7 @@ from time import sleep
 from utils import limpar_ecra
 from auth import login
 import clientes
+import contas
 
 
 
@@ -58,9 +59,9 @@ def menu_admin(user):
                 gestao_clientes(user)
             case "3":
                 limpar_ecra()
-                print("\n--- Gestão de Contas ---\n")
-                sleep(2)
-                menu_admin(user)
+                #print("\n--- Gestão de Contas ---\n")
+                #sleep(2)
+                gestao_contas(user)
             case "4":
                 limpar_ecra()
                 print("\n--- Operações Bancárias ---\n")
@@ -108,14 +109,14 @@ def gestao_clientes(user):
                 gestao_clientes(user)
             case "4":
                 limpar_ecra()
-                print("\n--- Editar Clientes ---\n")
-                sleep(2)
+                #print("\n--- Editar Clientes ---\n")
+                #sleep(2)
                 clientes.editar_cliente(user)
                 gestao_clientes(user)
             case "5":
                 limpar_ecra()
-                print("\n--- Remover Cliente ---\n")
-                sleep(2)
+                #print("\n--- Remover Cliente ---\n")
+                #sleep(2)
                 clientes.remover_cliente(user)
                 gestao_clientes(user)
             case "0":
@@ -127,6 +128,24 @@ def gestao_clientes(user):
                 print("\n--- Opção inválida ---\n")
                 sleep(2)
                 gestao_clientes(user)
+
+def gestao_contas(user):
+    limpar_ecra()
+    print("=================================\n       GESTÃO DE CONTAS\n=================================\n")
+    print("1. Nova Conta\n2. Consultar Conta\n3. Listar Contas\n4. Editar Contas\n5. Remover Conta\n0. Voltar\n")
+    option = input("Escolha uma opção: ")
+    match option:
+            case "1":
+                limpar_ecra()
+                #print("\n--- Nova Conta ---\n")
+                #sleep(2)
+                contas.criar_conta(user)
+                gestao_contas(user)
+            case "2":
+                limpar_ecra()
+                print("\n--- Consultar Conta ---\n")
+                sleep(2)
+                gestao_contas(user)
 
 def menu_client(user):
     limpar_ecra()

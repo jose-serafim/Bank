@@ -84,17 +84,6 @@ def pedir_nif():
 
         print("Já existe um cliente com esse NIF.")
 
-def pedir_nif_valido():
-
-    while True:
-
-        nif = utils.pedir_texto("NIF: ")
-
-        if utils.validar_nif(nif):
-            return nif
-
-        print("NIF inválido.")
-
 def pedir_texto_edicao(mensagem, valor_atual):
 
     valor = input(f"{mensagem} [{valor_atual}]: ").strip()
@@ -142,7 +131,7 @@ def consultar_cliente(user):
     print("      CONSULTAR CLIENTE")
     print("=================================\n")
 
-    nif = pedir_nif_valido()
+    nif = utils.pedir_nif_valido()
 
     cliente = obter_cliente_por_nif(nif)
 
@@ -186,7 +175,7 @@ def editar_cliente(user):
     print("       EDITAR CLIENTE")
     print("=================================\n")
 
-    nif = pedir_nif_valido()
+    nif = utils.pedir_nif_valido()
 
     cliente = obter_cliente_por_nif(nif)
 
@@ -221,7 +210,7 @@ def remover_cliente(user):
     print("       REMOVER CLIENTE")
     print("=================================\n")
 
-    nif = pedir_nif_valido()
+    nif = utils.pedir_nif_valido()
 
     cliente = obter_cliente_por_nif(nif)
 

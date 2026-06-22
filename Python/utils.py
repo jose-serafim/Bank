@@ -27,3 +27,14 @@ def pedir_confirmacao(mensagem):
 
 def validar_nif(nif):
     return nif.isdigit() and len(nif) == 9
+
+def pedir_nif_valido():
+
+    while True:
+
+        nif = pedir_texto("NIF: ")
+
+        if validar_nif(nif):
+            return nif
+
+        print("NIF inválido.")
